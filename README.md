@@ -22,7 +22,6 @@ This module provides an easy framework to process and transform general key-base
     #or...for something more custom
     use constant ARG_VALUE_TRANS => { HashType => sub { Hash::TypeFactory->get($_[0], @other_args) } }
 
-
     sub new {
         my $self = bless({}, $class);
         
