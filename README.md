@@ -12,32 +12,24 @@ This module provides an easy framework to process and transform general key-base
 ## EXAMPLE CODE
 
     package My::Password::Package;
-
-    #user imports this module, using the class tag
-    use Config::YAARG qw(:class);
+    use Config::YAARG qw(:class); #user imports this module, using the class tag
 
     #users specify public to private argument name mappings
     use constant ARG_NAME_MAP => { HashType => hashing_type };
 
-    #>>>>
-        #users specify value transformations, see POD for transformation types
-        use constant ARG_VALUE_TRANS => { HashType => 'Hash::TypeFactory' }
-
-        #or...for something more custom
-        use constant ARG_VALUE_TRANS => { HashType => sub { Hash::TypeFactory->get($_[0], @other_args) } }
-    #<<<<
+    #users specify value transformations, see POD for transformation types
+    use constant ARG_VALUE_TRANS => { HashType => 'Hash::TypeFactory' }
+    #or...for something more custom
+    use constant ARG_VALUE_TRANS => { HashType => sub { Hash::TypeFactory->get($_[0], @other_args) } }
 
 
     sub new {
         my $self = bless({}, $class);
         
-        #>>>>
-            #args are transformed and added to $_[0], in this case $self
-            $self->process_args(@_);
-
-            #or...any hashref you desire
-            $self->{opts} = process_args({}, @_);
-        #<<<<
+        #args are transformed and added to $_[0], in this case $self
+        $self->process_args(@_);
+        #or...any hashref you desire
+        $self->{opts} = process_args({}, @_);
 
         print "Hashing type: ", ref($self->{hashing_type}), "\n";
         return $self;
