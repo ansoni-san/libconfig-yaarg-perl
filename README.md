@@ -1,18 +1,15 @@
-#===================================================================================================================
-#    PROJECT:  Config::YAARG
-#===================================================================================================================
-
+#  Config::YAARG (Perl Library)
+## PROJECT SUMMARY
 
 This module is available under the same terms as Perl itself.
 Please read the project POD for more detailed information!
-
 
 This module provides an easy framework to process and transform general key-based arguments and values. Users simply specify by key how to parse values and where to store them, and the rest is taken care of. This module is designed to play extremely well with plain-perl object-oriented classes and heirachies, which are handled transparently and in an efficient manner.
 
 (Soon to be on CPAN, once we reach version 0.3)
 
 
-EXAMPLE CODE:
+## EXAMPLE CODE
 
     package My::Password::Package;
 
@@ -47,10 +44,9 @@ EXAMPLE CODE:
     }
 
 
+## TRANSFORMATION
 
-TRANSFORMATION:
-
-This module will smartly handle most argument variations, such as a user supplying multiple values using an arrayref, or supplying a singular value directly, or both. It will also handle deep / nested structures if the DEEP_TRANSFORM flag is set (SEE POD).
+This module will smartly handle most argument variations, such as a user supplying multiple values using an arrayref, or supplying a singular value directly, or both. It will also handle deep / nested structures if the DEEP\_TRANSFORM flag is set (SEE POD).
 
     $password = My::Password::Package->new( HashType => 'md5');
     $password = My::Password::Package->new( HashType => ['md5']);
@@ -62,10 +58,10 @@ This module will smartly handle most argument variations, such as a user supplyi
 This essentially allows you to autobox / type arguments based on key. If you have a nested argument structure with multiple elements which contain a 'URI' value, these can be 'type-casted' to instances of the URI class etc.
 
 
-INTERESTING USE-CASES:
+## INTERESTING USE-CASES
 
 This module _coincidentally_ excels in processing deserialised formats, such as XML-type structures and JSON / YAML as arguments.
-Academically, it would be trivial to write a custom transform handler, which first deserialised and then called process_args again on the result. This module checks whether your name mappings map to other transform-eligible keys, and automatically ensures they are reprocessed once renamed.
+Academically, it would be trivial to write a custom transform handler, which first deserialised and then called process\_args again on the result. This module checks whether your name mappings map to other transform-eligible keys, and automatically ensures they are reprocessed once renamed.
 
     
     #map final values to the hash key
@@ -83,10 +79,11 @@ Academically, it would be trivial to write a custom transform handler, which fir
     };
 
 
-CONTACT / SUPPORT:
 
-    - Email: kaoyoriketsu@ansoni.com
-    - IRC: #perl on irc.freenode.net
+## CONTACT / SUPPORT
+
+* Email - kaoyoriketsu@ansoni.com
+* IRC - #perl on irc.freenode.net
 
 
 
