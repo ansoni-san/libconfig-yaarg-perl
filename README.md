@@ -46,7 +46,7 @@ This module will smartly handle most argument variations, such as a user supplyi
     #or...if package supports deep transformations
     $password = My::Password::Package->new({ HashType => 'md5'});
 
-This essentially allows you to autobox / type arguments based on key. If you have a nested argument structure with multiple elements which contain a 'URI' value, these can be 'type-casted' to instances of the URI class etc.
+*This essentially allows you to autobox / type arguments based on key.* If you have a nested argument structure with multiple elements which contain a 'URI' value, these can be 'type-casted' to instances of the URI class etc.
 
 
 ## INTERESTING USE-CASES
