@@ -51,8 +51,19 @@ This essentially allows you to autobox / type arguments based on key. If you hav
 
 ## INTERESTING USE-CASES
 
-This module _coincidentally_ excels in processing deserialised formats, such as XML-type structures and JSON / YAML as arguments.
-Academically, it would be trivial to write a custom transform handler, which first deserialised and then called process\_args again on the result. This module checks whether your name mappings map to other transform-eligible keys, and automatically ensures they are reprocessed once renamed.
+This module _coincidentally_ excels in processing deserialised formats, such as XML-type structures and JSON / YAML as arguments. Academically, it would be trivial to write a custom transform handler, which first deserialised and then called process\_args again on the result. Please note that I do not suggest or encourage the use of such formats. None the less, here's an example:
+    
+    #map final values to the hash key
+    use ARG_NAME_MAP => { XML => 'HASH', JSON => 'HASH', YAML => 'HASH' };
+
+    use ARG_VALUE_TRANS => {
+
+        #deserialise all supported formats to common hash structure
+        #and then pass the result back in to process_args
+        XML => sub { process_args({}, read_xml($_[0])) }
+        JSON => sub { process_args({}, JSON.decode($_[0])) },
+        YAML => sub { process_args({}, YAML.decode($_[0])) },
+    };
 
     
     #map final values to the hash key
