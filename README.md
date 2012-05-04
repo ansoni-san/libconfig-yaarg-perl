@@ -66,22 +66,6 @@ This module _coincidentally_ excels in processing deserialised formats, such as 
     };
 
     
-    #map final values to the hash key
-    use ARG_NAME_MAP => { XML => 'HASH', JSON => 'HASH', YAML => 'HASH' };
-
-    use ARG_VALUE_TRANS => {
-
-        #deserialise all supported formats to common hash structure
-        XML => sub { },
-        JSON => sub { },
-        YAML => sub { },
-
-        #process the final value of any deserialisation
-        HASH => sub { process_args({}, @_) }
-    };
-
-
-
 ## CONTACT / SUPPORT
 
 * Email - kaoyoriketsu@ansoni.com
