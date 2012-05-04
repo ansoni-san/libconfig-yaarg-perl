@@ -4,7 +4,7 @@
 This module is available under the same terms as Perl itself.
 Please read the project POD for more detailed information!
 
-This module provides an easy framework to process and transform general key-based arguments and values. Users simply specify by key how to parse values and where to store them, and the rest is taken care of. This module is designed to play extremely well with plain-perl object-oriented classes and heirachies, which are handled transparently and in an efficient manner.
+This module provides an easy framework to process and transform general key-based arguments and values. Users simply specify by key how to parse values and where to store them, and the rest is taken care of. This module is designed to play extremely well with plain-perl object-oriented classes and hierarchies, which are handled transparently and in an efficient manner.
 
 (Soon to be on CPAN, once we reach version 0.3)
 
