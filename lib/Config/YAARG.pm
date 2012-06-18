@@ -27,8 +27,6 @@ use Getopt::Long ( );
 our @PUBLIC_CONSTANTS = qw/
     ARG_PASSTHROUGH
     ARG_IGNORE
-    ARG_VALUE_TRANS
-    ARG_NAME_MAP
 /;
 
 our @SCRIPT_ROUTINES = qw/ARGS/;
@@ -56,6 +54,7 @@ use constant ARG_PASSTHROUGH => 'pass';
 use constant ARG_IGNORE => 'ignore';
 
 
+sub ARG_NAME_LIST {};
 sub ARG_NAME_MAP {};
 sub ARG_VALUE_TRANS {};
 
@@ -67,7 +66,7 @@ sub ARG_VALUE_TRANS {};
 sub ARGS {
 
     my $class = caller();
-    my $config = _yaarg_fetch_config($class);
+    my $config = _yaarg_fetch_config(__PACKAGE__, $class);
     my $names = $config->{names};
     return unless ($names);
 
@@ -110,16 +109,17 @@ sub process_args {
 
 sub ProcessArgs {
 
-    my ($class, $config, %args) = @_;
+    my ($context, $config, %args) = @_;
 
     my $map = $config->{'map'};
     my $trans = $config->{'trans'};
 
     my $t_args;
-    $t_args = $class->_yaarg_transform_values(\%args, $trans)
+    $t_args = $context->_yaarg_transform_values(\%args, $trans)
         if ($trans);
-    $t_args = $class->_yaarg_transform_keys($t_args, $map)
+    $context->_yaarg_transform_keys($t_args, $map, 1)
         if ($map);
+
     return $t_args || {};
 }
 
@@ -129,14 +129,14 @@ sub _yaarg_fetch_config {
     my ($context, $class) = @_;
     $class ||= $context;
 
-    my @ISA = Class::ISA::self_super_path($class);
+    my @ISA = Class::ISA::self_and_super_path($class);
     my (@map, @trans, @names);
     foreach (@ISA) {
-        my ($m, $t, $n) = $context
-            ->_yaarg_fetch_class_config($_);
-        push(@map, _yaarg_to_list($m));
-        push(@trans, _yaarg_to_list($t));
-        push(@names, __yaarg_to_list($n));
+        my ($m, $t, $n) =
+            $context->_yaarg_fetch_class_config($_);
+        push(@map, $context->_yaarg_to_list($m));
+        push(@trans, $context->_yaarg_to_list($t));
+        push(@names, $context->_yaarg_to_list($n));
     }
     return {
         map => {@map},
@@ -157,7 +157,7 @@ sub _yaarg_fetch_class_config {
         ARG_NAME_LIST/) {
 
         push(@return, (($class->can($_))
-            ? $class->$_()
+            ? $class->$_() || undef
             : undef));
     }
     return @return;
@@ -171,21 +171,21 @@ sub _yaarg_fetch_class_config {
 
 sub _yaarg_to_list {
 
-    return %{$_[0]} if (ref($_[0]) eq 'HASH');
-    return @{$_[0]} if (ref($_[0]) eq 'ARRAY'
-        and !(@{$_[0]} % 2));
+    return %{$_[1]} if (ref($_[1]) eq 'HASH');
+    return @{$_[1]} if (ref($_[1]) eq 'ARRAY');
     return ();
 }
 
 
 sub _yaarg_transform_keys {
 
-    my ($hash, $key_map, $no_dup) = @_;
+    my ($self, $hash, $key_map, $no_dup) = @_;
     
     my ($thash, $v) = $no_dup ? $hash : {};
     foreach (keys %$key_map) {
-        if ($v = $hash->{$_}) {
-            $thash->{$_} = $v;
+        if (defined($v = $hash->{$_})) {
+            $thash->{$key_map->{$_}} = $v;
+            delete($thash->{$_}) if ($no_dup);
         }
     }
     return $thash;
@@ -193,20 +193,21 @@ sub _yaarg_transform_keys {
 
 
 sub _yaarg_transform_values {
-    _yaarg_transform_values_r($_[1], $_[2], '');
+    _yaarg_transform_values_r(@_[0..2], '');
 }
 
 
 sub _yaarg_transform_values_r {
 
-    my ($struct, $type_map, $key) = @_;
+    my ($self, $struct, $type_map, $key) = @_;
+
 
     #attempt reading common data structures
     given (ref($struct)) {
 
         when ('ARRAY') {
             return [ map {
-                _yaarg_transform_values($_, $type_map, $key);
+                $self->_yaarg_transform_values_r($_, $type_map, $key);
                 } @$struct ];
         }
         default {
@@ -229,7 +230,7 @@ sub _yaarg_transform_values_r {
 
                 $target = {};
                 foreach (keys(%$struct)) {
-                    $target->{$_} = _yaarg_transform_values(
+                    $target->{$_} = $self->_yaarg_transform_values_r(
                         $struct->{$_}, $type_map, $_);
                 }
                 return $target;
