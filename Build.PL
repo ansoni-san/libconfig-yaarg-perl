@@ -11,7 +11,7 @@ my $build = Module::Build->new(
     module_name => 'Config::YAARG',
     dist_abstract => 'Yet-another argument processor, designed to provide a standard method for parsing constructor arguments',
     requires => {
-        'TAP' => 0
+        'TAP::Harness' => 0
     },
     use_tap_harness => 1,
     create_makefile_pl => 'passthrough'
