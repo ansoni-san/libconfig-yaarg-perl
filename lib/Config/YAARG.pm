@@ -5,7 +5,7 @@
 
 
 
-package Config::YAARG 0.01;
+package Config::YAARG 0.02;
 use base qw( Exporter );
 
 
@@ -127,7 +127,7 @@ sub ProcessArgs {
 sub _yaarg_fetch_config {
 
     my ($context, $class) = @_;
-    $class ||= $context;
+    $class ||= (ref($context) || $context);
 
     my @ISA = Class::ISA::self_and_super_path($class);
     my (@map, @trans, @names);

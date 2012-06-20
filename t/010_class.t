@@ -33,7 +33,7 @@ my $test_values = { Debug => 1, Opts => {1..4} };
 my $test_values_output = { Debug => 2, Opts => {1..4} };
 
 my $obj;
-ok( $obj = YAARG::Test::Class->new(%$test_values), 'create test class instance');
+ok( $obj = YAARG::Test::SubClass->new(%$test_values), 'create test class instance');
 
 
 #perform test
@@ -55,6 +55,23 @@ done_testing();
 
 
 #//TEST CLASS
+
+package YAARG::Test::SubClass;
+use parent -norequire, qw( YAARG::Test::Class );
+
+
+use strict;
+use warnings;
+
+
+use constant ARG_NAME_LIST => [];
+use constant ARG_NAME_MAP => {};
+use constant ARG_VALUE_TRANS => {};
+
+
+
+
+
 package YAARG::Test::Class;
 use parent -norequire, qw( Config::YAARG );
 
