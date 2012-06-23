@@ -65,7 +65,7 @@ sub ARG_VALUE_TRANS {};
 
 sub ARGS {
 
-    my $class = caller();
+    my $class = $_[0] || caller();
     my $config = _yaarg_fetch_config(__PACKAGE__, $class);
     my $names = $config->{names};
     return unless ($names);
