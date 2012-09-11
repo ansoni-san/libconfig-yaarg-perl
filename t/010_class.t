@@ -1,11 +1,7 @@
-#!/bin/perl
-#===================================================================================================================
-#    Script:            010_class.t
-#    purpose:           N/A
-#    date created:      06/08/2012
-#    author:            Anthony (J) Lucas - anthony_lucas@discovery-europe.com
-#    copyright:         Code and methodology copyright 2012 Discovery Networks Europe
-#===================================================================================================================
+#  You may distribute under the terms of either the GNU General Public License
+#  or the Artistic License (the same terms as Perl itself)
+#
+#  Copyright (C) 2011 - Anthony J. Lucas - kaoyoriketsu@ansoni.com
 
 
 
@@ -15,9 +11,6 @@ package main;
 
 use strict;
 use warnings;
-
-
-
 use Test::More;
 
 
