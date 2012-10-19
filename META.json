@@ -21,6 +21,7 @@
       },
       "runtime" : {
          "requires" : {
+            "Class::ISA" : 0,
             "TAP::Harness" : 0
          }
       }
@@ -28,9 +29,9 @@
    "provides" : {
       "Config::YAARG" : {
          "file" : "lib/Config/YAARG.pm",
-         "version" : "0.02"
+         "version" : "0.021"
       }
    },
    "release_status" : "stable",
-   "version" : "0.02"
+   "version" : "0.021"
 }
