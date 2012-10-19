@@ -5,7 +5,7 @@
 
 
 
-package Config::YAARG 0.02;
+package Config::YAARG 0.021;
 use base qw( Exporter );
 
 
