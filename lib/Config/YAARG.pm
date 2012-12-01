@@ -5,8 +5,12 @@
 
 
 
-package Config::YAARG 0.021;
+package Config::YAARG;
 use base qw( Exporter );
+
+
+
+our $VERSION = '0.021';
 
 
 
